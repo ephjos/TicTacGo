@@ -3,8 +3,11 @@ package game
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"os/exec"
+	"sync"
+	"time"
 
 	"github.com/josephthomashines/TicTacGo/board"
 )
@@ -200,6 +203,97 @@ func Play() {
 // Play n games randomly
 // Report win rate of each player
 // Average number of moves
+type Results map[string]int
+
+func PlaySim() Results {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	stats := make(Results)
+	stats["O"] = 0
+	stats["X"] = 0
+	stats["D"] = 0
+	stats["plays"] = 0
+
+	game := Init()
+	gp := &game
+
+	choice, x, y, plays := -1, -1, -1, 0
+
+	for IsWin(gp) == board.PLACEHOLDER {
+		choice = rand.Intn(9) + 1
+		x, y = MapChoice(choice)
+
+		if gp.board.Get()[x][y] == board.PLACEHOLDER {
+			gp.board.Set(x, y, gp.turn)
+			gp.SwitchTurn()
+			plays++
+		}
+	}
+
+	gp.SwitchTurn()
+
+	winner := IsWin(gp)
+
+	if winner == "-" {
+		stats["D"] = 1
+	} else {
+		stats[winner] = 1
+	}
+
+	stats["plays"] = plays
+
+	return stats
+}
+
+func RunSims(n int) chan Results {
+	c := make(chan Results)
+	go func() {
+		var wg sync.WaitGroup
+		wg.Add(n)
+		for i := 0; i < n; i++ {
+			go func() {
+				defer wg.Done()
+				c <- PlaySim()
+			}()
+		}
+		wg.Wait()
+		close(c)
+	}()
+	return c
+}
+
 func Simulate(n int) {
-	fmt.Printf("Simulate %d times\n", n)
+	stats := make(Results)
+	stats["O"] = 0
+	stats["X"] = 0
+	stats["D"] = 0
+	stats["plays"] = 0
+
+	start := time.Now()
+
+	for v := range RunSims(n) {
+		//		fmt.Println(v)
+		stats["O"] += v["O"]
+		stats["X"] += v["X"]
+		stats["D"] += v["D"]
+		stats["plays"] += v["plays"]
+	}
+
+	elapsed := time.Since(start)
+
+	Clear()
+
+	fmt.Printf("\nTicTacGo: Simulated %d Games (played randomly, X goes first)\n\n Took: %s\n\n", n, elapsed)
+
+	fmt.Println("Totals:")
+	fmt.Printf("  X wins: %d\n", stats["X"])
+	fmt.Printf("  O wins: %d\n", stats["O"])
+	fmt.Printf("  Draws: %d\n", stats["D"])
+	fmt.Printf("  Plays: %d\n", stats["plays"])
+
+	fmt.Println("Rates:")
+	fmt.Printf("  X winrate: %.2f%%\n", float64(stats["X"])/float64(n)*100.0)
+	fmt.Printf("  O winrate: %.2f%%\n", float64(stats["O"])/float64(n)*100.0)
+	fmt.Printf("  Draw rate: %.2f%%\n", float64(stats["D"])/float64(n)*100.0)
+	fmt.Printf("  Plays per game: %.2f\n", float64(stats["plays"])/float64(n))
 }
