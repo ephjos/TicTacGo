@@ -1,8 +1,12 @@
 <h1 align="center">TicTacGo</h1>
 
-![](./gifs/basic.gif)
+<br>
 
-This is my first project using Go!
+<p align="center">
+  <img src="./gifs/basic.gif" />
+</p>
+
+<br>
 
 ## Install
 
