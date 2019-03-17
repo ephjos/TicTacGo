@@ -1,5 +1,7 @@
 # TicTacGo
 
+![](./gifs/basic.gif)
+
 This is my first project using Go!
 
 ## Install
