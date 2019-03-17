@@ -1,6 +1,10 @@
 <h1 align="center">TicTacGo</h1>
 
-<img src="./gifs/basic.gif" align="center" />
+<p align="center">
+  <img src="./gifs/basic.gif" />
+</p>
+
+<br>
 
 ## Install
 
