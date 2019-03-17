@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+const PLACEHOLDER = "_"
+
 // Errors
 type BoardOutOfBoundsError struct {
 	received, limit int
@@ -63,6 +65,10 @@ func (b *Board) Set(x, y int, char string) {
 	(*b).data[x][y] = char
 }
 
+func (b *Board) Get() [][]string {
+	return b.data
+}
+
 func Init(x, y int) Board {
 	data := make([][]string, x)
 
@@ -72,7 +78,7 @@ func Init(x, y int) Board {
 
 	for i, row := range data {
 		for j := range row {
-			data[i][j] = "_"
+			data[i][j] = PLACEHOLDER
 		}
 	}
 
