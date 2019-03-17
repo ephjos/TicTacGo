@@ -13,7 +13,7 @@ func main() {
 
 	if len(args) > 0 {
 		if args[0] == "-h" || args[0] == "--help" {
-			fmt.Println("\n./TicTacGo [n] -h\n  n  | toggles simulation mode\n       int number of simulations to run\n\n  -h | show this message\n")
+			fmt.Println("\n./TicTacGo [n] -h\n  n  | toggles simulation mode\n       int number of simulations to run\n\n  -h | show this message")
 			return
 		} else {
 			sims, simError := strconv.Atoi(args[0])
