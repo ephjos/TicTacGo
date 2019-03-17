@@ -1,4 +1,4 @@
-# TicTacGo
+<h1 align="center">TicTacGo</h1>
 
 ![](./gifs/basic.gif)
 
