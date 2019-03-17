@@ -1,5 +1,7 @@
 <h1 align="center">TicTacGo</h1>
 
+<br>
+
 <p align="center">
   <img src="./gifs/basic.gif" />
 </p>
