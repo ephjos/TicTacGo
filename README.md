@@ -11,10 +11,10 @@ cd ~/go/src/github.com/josephthomashines/TicTacGo
 
 go build
 
-// Run in interactive mode
+# Run in interactive mode
 ./TicTacGo
 
-// Run n simulations
+# Run n simulations
 ./TicTacGo n
 ```
 
