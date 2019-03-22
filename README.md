@@ -67,4 +67,5 @@ Rates:
 |   ✅   |     Error checking for user input     |
 |   ✅   |          Add simulation mode          |
 |   ✅   | Use goroutines to speed up simulation |
-|   ✅   |            Add unit tests             |
+|   ❌   |            Add unit tests             |
+|   ❌   |         Basic TravisCI setup          |
